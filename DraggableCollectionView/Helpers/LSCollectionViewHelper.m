@@ -241,7 +241,7 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
             [UIView
              animateWithDuration:0.3
              animations:^{
-                 mockCell.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+                 mockCell.transform = CGAffineTransformMakeScale(1.1, 1.1);
              }
              completion:nil];
             
@@ -283,7 +283,8 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
              animateWithDuration:0.3
              animations:^{
                  mockCell.center = layoutAttributes.center;
-                 mockCell.transform = CGAffineTransformMakeScale(1.f, 1.f);
+                 mockCell.bounds = (CGRect){.size = layoutAttributes.size, .origin = CGPointMake(0, 0)};
+                 mockCell.transform = CGAffineTransformIdentity;
              }
              completion:^(BOOL finished) {
                  [mockCell removeFromSuperview];
@@ -364,7 +365,17 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
         // Warp item to finger location
         CGPoint point = [sender locationInView:self.collectionView];
         NSIndexPath *indexPath = [self indexPathForItemClosestToPoint:point];
-        [self warpToIndexPath:indexPath];
+      
+      [self warpToIndexPath:indexPath];
+      
+      dispatch_async(dispatch_get_main_queue(), ^{
+        UICollectionViewLayoutAttributes *layoutAttributes = [self.collectionView layoutAttributesForItemAtIndexPath:self.layoutHelper.fromIndexPath];
+        [UIView animateWithDuration:0.25 animations:^{
+          [UIView setAnimationBeginsFromCurrentState:YES];
+          
+          mockCell.bounds = (CGRect){.size = layoutAttributes.size, .origin = CGPointZero};
+        }];
+      });
     }
 }
 

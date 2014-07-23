@@ -11,7 +11,7 @@
 - (id)initWithCollectionView:(UICollectionView *)collectionView;
 
 @property (nonatomic, readonly) UICollectionView *collectionView;
-@property (nonatomic, readonly) UIGestureRecognizer *longPressGestureRecognizer;
+@property (nonatomic, readonly) UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (nonatomic, readonly) UIGestureRecognizer *panPressGestureRecognizer;
 @property (nonatomic, assign) UIEdgeInsets scrollingEdgeInsets;
 @property (nonatomic, assign) CGFloat scrollingSpeed;

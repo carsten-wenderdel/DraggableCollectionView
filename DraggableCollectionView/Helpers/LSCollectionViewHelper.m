@@ -58,6 +58,8 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
         _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc]
                                        initWithTarget:self
                                        action:@selector(handleLongPressGesture:)];
+        [_longPressGestureRecognizer setMinimumPressDuration:0.1];
+
         [_collectionView addGestureRecognizer:_longPressGestureRecognizer];
         
         _panPressGestureRecognizer = [[UIPanGestureRecognizer alloc]
@@ -109,7 +111,8 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
 
 - (UIImage *)imageFromCell:(UICollectionViewCell *)cell {
     UIGraphicsBeginImageContextWithOptions(cell.bounds.size, cell.isOpaque, 0.0f);
-    [cell.layer renderInContext:UIGraphicsGetCurrentContext()];
+  [cell drawViewHierarchyInRect:cell.bounds afterScreenUpdates:YES];
+  //    [cell.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
@@ -238,9 +241,12 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
             mockCell.image = [self imageFromCell:cell];
             mockCenter = mockCell.center;
             [self.collectionView addSubview:mockCell];
-            [UIView
-             animateWithDuration:0.3
-             animations:^{
+          [UIView animateWithDuration:0.5
+                                delay:0
+               usingSpringWithDamping:0.5
+                initialSpringVelocity:0.5
+                              options:0
+                           animations:^{
                  mockCell.transform = CGAffineTransformMakeScale(1.1, 1.1);
              }
              completion:nil];

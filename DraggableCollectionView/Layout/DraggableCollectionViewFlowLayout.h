@@ -11,5 +11,4 @@
 @interface DraggableCollectionViewFlowLayout : UICollectionViewFlowLayout <UICollectionViewLayout_Warpable>
 
 @property (readonly, nonatomic) LSCollectionViewLayoutHelper* layoutHelper;
-@property (nonatomic, assign) UICollectionViewScrollDirection scrollDirection;
 @end
